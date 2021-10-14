@@ -3,7 +3,7 @@ import Item from './Item';
 
 const ItemList = ({favoritos, setFavoritos, tipo, items}) => {
   return (
-    <div className="pt-8">
+    <div className="pt-8" id={tipo.toLowerCase()}>
       <p className="text-3xl font-light text-center">Nuestros {tipo}</p>
       <div className="grid grid-cols-4 gap-8 px-8 py-6">
         {
