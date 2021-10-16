@@ -1,10 +1,16 @@
 import { faEnvelope, faPhoneAlt } from '@fortawesome/free-solid-svg-icons';
-import React from 'react';
+import React, { useState } from 'react';
 import Icon from '../Stateless/Icon/Icon';
 import ItemCount from './ItemCount';
 
 const ItemDetail = ({nombre, descripcion, carreras, telefono, email, precio, nivel, favoritos, setFavoritos, tipo, id, cupos}) => {
-  console.log(carreras)
+  
+  const [hideItemCount, setHideItemCount] = useState(false);
+
+  const changeHideItemCount = () => {
+    setHideItemCount(true);
+  }
+  
   return (
     <div className="border border-gray-300 w-full rounded-3xl p-10 grid grid-cols-3 grid-rows-[auto,auto,1fr] gap-x-8">
       <div className="col-span-2 pr-8 border-r border-gray-200">
@@ -55,16 +61,25 @@ const ItemDetail = ({nombre, descripcion, carreras, telefono, email, precio, niv
           <p className="text-2xl">S/. {precio}</p>
         </div>
         <div>
-          <ItemCount
-            cupos={5}
-            nombre={nombre}
-            id={id}
-            tipo={tipo}
-            favoritos={favoritos}
-            setFavoritos={setFavoritos}
-            masInfo={false}
-          />
-          <div className="pt-2 text-sm font-medium text-center text-gray-500">{cupos} cupos disponibles</div>
+          {
+            hideItemCount ? (
+              <></>
+            ) : (
+              <>
+                <ItemCount
+                  cupos={5}
+                  nombre={nombre}
+                  id={id}
+                  tipo={tipo}
+                  favoritos={favoritos}
+                  setFavoritos={setFavoritos}
+                  masInfo={false}
+                  changeHideItemCount={changeHideItemCount}
+                />
+                <div className="pt-2 text-sm font-medium text-center text-gray-500">{cupos} cupos disponibles</div>
+              </>
+            )
+          }
         </div>
       </div>
     </div>

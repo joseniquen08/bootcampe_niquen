@@ -4,8 +4,9 @@ import { faPlus, faMinus, faHeart as faSolidHeart } from '@fortawesome/free-soli
 import { faCheckCircle, faHeart as faRegularHeart } from '@fortawesome/free-regular-svg-icons';
 import { Link } from 'react-router-dom';
 
-const ItemCount = ({cupos, nombre, id, tipo, favoritos, setFavoritos, masInfo}) => {
-
+const ItemCount = ({cupos, nombre, id, tipo, favoritos, setFavoritos, masInfo, changeHideItemCount}) => {
+  
+  const [statusBtnAddCart, setStatusBtnAddCart] = useState(false);
   const [items, setItems] = useState(1);
   const [disabledButton, setDisabledButton] = useState(true);
   const [btnFavorite, setBtnFavorite] = useState(false);
@@ -51,6 +52,9 @@ const ItemCount = ({cupos, nombre, id, tipo, favoritos, setFavoritos, masInfo}) 
 
   const addToCart = () => {
     setModal(true);
+    if (!masInfo) {
+      setStatusBtnAddCart(true);
+    }
   }
 
   const closeModal = () => {
@@ -74,7 +78,13 @@ const ItemCount = ({cupos, nombre, id, tipo, favoritos, setFavoritos, masInfo}) 
           <></>
         )
       }
-      <button type="button" onClick={() => addToCart(items)} disabled={disabledButton} className={`w-full py-2 my-1 bg-blue-600 border text-white font-semibold col-span-1 border-gray-200 rounded-2xl disabled:opacity-50 ${disabledButton === true ? 'cursor-not-allowed' : 'hover:bg-blue-700'}`}>Agregar al carrito</button>
+      {
+        statusBtnAddCart ? (
+          <button type="button" onClick={() => changeHideItemCount()} disabled={disabledButton} className={`w-full py-2 my-1 bg-yellow-500 border text-white font-semibold col-span-1 border-gray-200 rounded-2xl disabled:opacity-50 ${disabledButton === true ? 'cursor-not-allowed' : 'hover:bg-yellow-600'}`}>Finalizar compra</button>
+        ) : (
+          <button type="button" onClick={() => addToCart(items)} disabled={disabledButton} className={`w-full py-2 my-1 bg-blue-600 border text-white font-semibold col-span-1 border-gray-200 rounded-2xl disabled:opacity-50 ${disabledButton === true ? 'cursor-not-allowed' : 'hover:bg-blue-700'}`}>Agregar al carrito</button>
+        )
+      }
       {
         modal && (
           <div className="fixed inset-0 z-10 overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
