@@ -3,14 +3,17 @@ import Icon from '../Stateless/Icon/Icon';
 import { faPlus, faMinus, faHeart as faSolidHeart } from '@fortawesome/free-solid-svg-icons';
 import { faCheckCircle, faHeart as faRegularHeart } from '@fortawesome/free-regular-svg-icons';
 import { Link } from 'react-router-dom';
+import { useCartContext } from '../../context/cartContext';
 
-const ItemCount = ({cupos, nombre, id, tipo, favoritos, setFavoritos, masInfo, changeHideItemCount}) => {
+const ItemCount = ({cupos, nombre, id, tipo, precio, favoritos, setFavoritos, masInfo, changeHideItemCount}) => {
   
   const [statusBtnAddCart, setStatusBtnAddCart] = useState(false);
   const [items, setItems] = useState(1);
   const [disabledButton, setDisabledButton] = useState(true);
   const [btnFavorite, setBtnFavorite] = useState(false);
   const [modal, setModal] = useState(false);
+
+  const { addItemToCart } = useCartContext();
 
   useEffect(() => {
     if (items > 0) {
@@ -42,11 +45,9 @@ const ItemCount = ({cupos, nombre, id, tipo, favoritos, setFavoritos, masInfo, c
       favoritos.splice(favoritos.findIndex((item) => item.id === id), 1);
       setFavoritos(favoritos);
       setBtnFavorite(false);
-      console.log(favoritos);
     } else {
       setFavoritos([...favoritos, {id: id, tipo: tipo}]);
       setBtnFavorite(true);
-      console.log(favoritos);
     }
   }
 
@@ -55,6 +56,8 @@ const ItemCount = ({cupos, nombre, id, tipo, favoritos, setFavoritos, masInfo, c
     if (!masInfo) {
       setStatusBtnAddCart(true);
     }
+    addItemToCart({id: id, nombre: nombre, precio: precio, cantidad: items});
+    setItems(1);
   }
 
   const closeModal = () => {

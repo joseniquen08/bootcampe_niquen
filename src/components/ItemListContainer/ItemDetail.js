@@ -24,7 +24,7 @@ const ItemDetail = ({nombre, descripcion, carreras, telefono, email, precio, niv
             <div>
               <h3 className="text-sm font-medium text-gray-900">Carreras</h3>
               <div className="mt-4">
-                <ul role="list" className="pl-4 space-y-2 text-sm list-disc">
+                <ul className="pl-4 space-y-2 text-sm list-disc">
                   {
                     carreras.map((carrera, index) => (
                       <li key={index} className="text-gray-400"><span className="text-gray-600">{carrera}</span></li>
@@ -71,6 +71,7 @@ const ItemDetail = ({nombre, descripcion, carreras, telefono, email, precio, niv
                   nombre={nombre}
                   id={id}
                   tipo={tipo}
+                  precio={precio}
                   favoritos={favoritos}
                   setFavoritos={setFavoritos}
                   masInfo={false}

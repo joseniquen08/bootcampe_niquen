@@ -14,7 +14,7 @@ const NavBar = () => {
         <li><a href="https://www.google.com/">Eventos</a></li>
         <li><a href="https://www.google.com/">Nosotros</a></li>
         <li><Link to="/favoritos"><Icon icon={faHeart} /></Link></li>
-        <li><CartWidget /></li>
+        <li><Link to="/cart"><CartWidget /></Link></li>
       </ul>
     </nav>
   )

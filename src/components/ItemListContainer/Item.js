@@ -12,6 +12,7 @@ const Item = ({index, nombre, cupos, precio, id, tipo, favoritos, setFavoritos})
           nombre={nombre}
           id={id}
           tipo={tipo}
+          precio={precio}
           favoritos={favoritos}
           setFavoritos={setFavoritos}
           masInfo={true}
