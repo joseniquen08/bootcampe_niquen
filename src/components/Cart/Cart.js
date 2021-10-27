@@ -14,7 +14,7 @@ const Cart = ({index, id, nombre, precio, cantidad}) => {
           <div className="flex flex-col w-full px-8 border-r border-gray-300 gap-y-2">
             <p className="text-2xl font-bold text-left text-gray-800">{nombre}</p>
             <div className="flex items-end justify-between">
-              <p className="text-lg text-left">{cantidad} cupos</p>
+              <p className="text-left">{cantidad} {cantidad > 1 ? 'cupos' : 'cupo' }</p>
               <p className="text-xl font-semibold text-right text-gray-600">S/. {precio}</p>
             </div>
           </div>

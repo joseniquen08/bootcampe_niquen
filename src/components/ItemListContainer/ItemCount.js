@@ -57,11 +57,11 @@ const ItemCount = ({cupos, nombre, id, tipo, precio, favoritos, setFavoritos, ma
       setStatusBtnAddCart(true);
     }
     addItemToCart({id: id, nombre: nombre, precio: precio, cantidad: items});
-    setItems(1);
   }
-
+  
   const closeModal = () => {
     setModal(false);
+    setItems(1);
   }
 
   return (
@@ -83,7 +83,9 @@ const ItemCount = ({cupos, nombre, id, tipo, precio, favoritos, setFavoritos, ma
       }
       {
         statusBtnAddCart ? (
-          <button type="button" onClick={() => changeHideItemCount()} disabled={disabledButton} className={`w-full py-2 my-1 bg-yellow-500 border text-white font-semibold col-span-1 border-gray-200 rounded-2xl disabled:opacity-50 ${disabledButton === true ? 'cursor-not-allowed' : 'hover:bg-yellow-600'}`}>Finalizar compra</button>
+          <div className="flex justify-center w-full my-1 align-center">
+            <Link to='/cart' className="w-full py-2 font-semibold text-center text-white bg-yellow-500 border border-gray-200 rounded-2xl hover:bg-yellow-600">Finalizar compra</Link>
+          </div>
         ) : (
           <button type="button" onClick={() => addToCart(items)} disabled={disabledButton} className={`w-full py-2 my-1 bg-blue-600 border text-white font-semibold col-span-1 border-gray-200 rounded-2xl disabled:opacity-50 ${disabledButton === true ? 'cursor-not-allowed' : 'hover:bg-blue-700'}`}>Agregar al carrito</button>
         )

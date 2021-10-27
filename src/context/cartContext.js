@@ -37,8 +37,9 @@ const CartContextProvider = ({children}) => {
   }
   
   const removeAllItems = () => {
-    setCartList([]);
     setTotalItems(0);
+    setSubtotal(0);
+    setCartList([]);
   }
 
   return (
