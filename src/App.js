@@ -7,33 +7,33 @@ import ItemDetailContainer from './components/ItemListContainer/ItemDetailContai
 import ItemListContainer from './components/ItemListContainer/ItemListContainer';
 import NavBar from './components/NavBar/NavBar';
 import CartContextProvider from './context/cartContext';
+import FavoriteContextProvider from './context/favoriteContext';
 
 function App() {
-
-  const [favoritos, setFavoritos] = useState([]);
-
   return (
-    <CartContextProvider>
-      <BrowserRouter>
-        <div className="font-inter">
-          <NavBar favoritos={favoritos} />
-          <Switch>
-            <Route exact path="/">
-              <ItemListContainer favoritos={favoritos} setFavoritos={setFavoritos} />
-            </Route>
-            <Route exact path="/:type/:id">
-              <ItemDetailContainer favoritos={favoritos} setFavoritos={setFavoritos} />
-            </Route>
-            <Route exact path="/favoritos">
-              <FavoriteListContainer favoritos={favoritos} />
-            </Route>
-            <Route exact path="/cart">
-              <CartListContainer />
-            </Route>
-          </Switch>
-        </div>
-      </BrowserRouter>
-    </CartContextProvider>
+    <FavoriteContextProvider>
+      <CartContextProvider>
+        <BrowserRouter>
+          <div className="font-inter">
+            <NavBar />
+            <Switch>
+              <Route exact path="/">
+                <ItemListContainer />
+              </Route>
+              <Route exact path="/:type/:id">
+                <ItemDetailContainer />
+              </Route>
+              <Route exact path="/favoritos">
+                <FavoriteListContainer />
+              </Route>
+              <Route exact path="/cart">
+                <CartListContainer />
+              </Route>
+            </Switch>
+          </div>
+        </BrowserRouter>
+      </CartContextProvider>
+    </FavoriteContextProvider>
   );
 }
 

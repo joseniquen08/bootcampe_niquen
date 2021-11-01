@@ -1,8 +1,8 @@
-import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 import ItemDetail from './ItemDetail';
 import LoadingDetail from '../Stateless/Loading/LoadingDetail';
+import { getFirestore } from '../../services/firebase.config';
 
 const ItemDetailContainer = ({favoritos, setFavoritos}) => {
 
@@ -10,19 +10,16 @@ const ItemDetailContainer = ({favoritos, setFavoritos}) => {
 
   const [info, setInfo] = useState(null);
 
-  const promise = new Promise((resolve, reject) => {
-    setTimeout(async () => {
-      const detailData = await axios.get(`https://bootcamp-api-20.herokuapp.com/api/v1/${type}/${id}`);
-      await resolve(detailData.data.data);
-    }, 2000);
-  });
-
   useEffect(() => {
-    promise.then(result => {
-      setInfo(result);
-      console.log(result)
-    });
+    const db = getFirestore();
+
+    setTimeout(async () => {
+      await db.collection('items').doc(id).get()
+      .then(result => setInfo({id: result.id, ...result.data()}));
+    }, 2000);
   }, []);
+
+  console.log(info);
 
   return (
     <div>
@@ -30,20 +27,20 @@ const ItemDetailContainer = ({favoritos, setFavoritos}) => {
         info === null ? (
           <LoadingDetail />
         ) : (
-          <div className="w-full max-w-3xl py-16 mx-auto">
+          <div className="w-full max-w-4xl py-16 mx-auto">
             <ItemDetail
-              nombre={info.name ? info.name : info.title}
-              descripcion={info.description}
-              carreras={info.careers && info.careers}
-              telefono={info.phone && info.phone}
-              email={info.email && info.email}
-              precio={info.averageCost ? info.averageCost : info.tuition}
-              nivel={info.minimumSkill && info.minimumSkill}
+              nombre={info.nombre}
+              descripcion={info.descripcion}
+              telefono={info.telefono}
+              precio={info.precio}
+              duracion={info.duracion}
+              valoracion={info.valoracion}
+              urlImage={info.urlImage}
               favoritos={favoritos}
               setFavoritos={setFavoritos}
-              tipo={type === 'bootcamps' ? 'Bootcamps' : 'Cursos'}
+              tipo={info.tipo === 'bootcamp' ? 'Bootcamps' : 'Cursos'}
               id={id}
-              cupos={5}
+              cupos={info.cupos}
             />
           </div>
         )

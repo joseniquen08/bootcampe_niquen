@@ -1,42 +1,33 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import Loading from '../Stateless/Loading/Loading';
 import ItemList from './ItemList';
+import { getFirestore } from '../../services/firebase.config';
 
-const ItemListContainer = ({favoritos, setFavoritos}) => {
+const ItemListContainer = () => {
 
-  const [items, setItems] = useState(null);
-
-  const promise = new Promise((resolve, reject) => {
-    setTimeout(async () => {
-      const responseBootcamps = await axios.get('https://bootcamp-api-20.herokuapp.com/api/v1/bootcamps');
-      const responseCourses = await axios.get('https://bootcamp-api-20.herokuapp.com/api/v1/courses');
-      await resolve([
-        {
-          tipo: 'Bootcamps',
-          dt: responseBootcamps
-        },
-        {
-          tipo: 'Cursos',
-          dt: responseCourses
-        }
-      ]);
-    }, 2000);
-  });
+  const [itemsBootcamps, setItemsBootcamps] = useState([]);
+  const [itemsCourses, setItemsCourses] = useState([]);
 
   useEffect(() => {
-    promise.then(result => {
-     setItems(result);
-    });
+    const db = getFirestore();
+
+    setTimeout(async () => {
+      await db.collection('items').where('tipo', '==', 'bootcamp').get()
+      .then(result => setItemsBootcamps(result.docs.map(item => ({id: item.id, ...item.data()}))));
+  
+      await db.collection('items').where('tipo', '==', 'curso').get()
+      .then(result => setItemsCourses(result.docs.map(item => ({id: item.id, ...item.data()}))));
+    }, 2000);
   }, []);
 
   return (
-    <div className="bg-gray-100">
+    <div className="w-full bg-gray-100">
       {
-        items === null ? (<Loading />) : (
-          items.map((item, index) => (
-            <ItemList favoritos={favoritos} setFavoritos={setFavoritos} key={index} tipo={item.tipo} items={item.dt} />
-          ))
+        itemsBootcamps.length === 0 || itemsCourses.length === 0 ? (<Loading />) : (
+          <>
+            <ItemList tipo={'Bootcamps'} items={itemsBootcamps} />
+            <ItemList tipo={'Cursos'} items={itemsCourses} />
+          </>
         )
       }
     </div>

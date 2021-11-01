@@ -1,9 +1,10 @@
-import { faEnvelope, faPhoneAlt } from '@fortawesome/free-solid-svg-icons';
+import { faStar as faRegularStar } from '@fortawesome/free-regular-svg-icons';
+import { faStar as faSolidStar, faStarHalfAlt, faPhoneAlt } from '@fortawesome/free-solid-svg-icons';
 import React, { useState } from 'react';
 import Icon from '../Stateless/Icon/Icon';
 import ItemCount from './ItemCount';
 
-const ItemDetail = ({nombre, descripcion, carreras, telefono, email, precio, nivel, favoritos, setFavoritos, tipo, id, cupos}) => {
+const ItemDetail = ({nombre, descripcion, telefono, precio, duracion, valoracion, urlImage, favoritos, setFavoritos, tipo, id, cupos}) => {
   
   const [hideItemCount, setHideItemCount] = useState(false);
 
@@ -14,37 +15,31 @@ const ItemDetail = ({nombre, descripcion, carreras, telefono, email, precio, niv
   return (
     <div className="border border-gray-300 w-full rounded-3xl p-10 grid grid-cols-3 grid-rows-[auto,auto,1fr] gap-x-8">
       <div className="col-span-2 pr-8 border-r border-gray-200">
-        <h4 className="mb-1 text-base font-medium text-gray-600 uppercase">{tipo === 'Bootcamps' ? 'bootcamp' : 'curso'}</h4>
-        <h1 className="text-4xl font-bold text-gray-900">{nombre}</h1>
-        <div className="py-4">
-          <p className="text-base text-gray-900">{descripcion}</p>
+        <div className="flex items-end">
+          <div className="border-r">
+            <img className="object-contain w-24 h-24 p-2 mx-auto" src={urlImage} />
+          </div>
+          <div className="ml-4">
+            <h4 className="mb-1 text-base font-bold text-gray-600 uppercase">{tipo === 'Bootcamps' ? 'bootcamp' : 'curso'}</h4>
+            <h1 className="pb-1 text-4xl font-bold text-gray-900">{nombre}</h1>
+          </div>
         </div>
-        {
-          carreras ? (
-            <div>
-              <h3 className="text-sm font-medium text-gray-900">Carreras</h3>
-              <div className="mt-4">
-                <ul className="pl-4 space-y-2 text-sm list-disc">
-                  {
-                    carreras.map((carrera, index) => (
-                      <li key={index} className="text-gray-400"><span className="text-gray-600">{carrera}</span></li>
-                    ))
-                  }
-                </ul>
-              </div>
-            </div>
-          ) : (<></>)
-        }
-        {
-          nivel ? (
-            <div className="mt-2">
-              <h3 className="text-sm font-medium text-gray-900">Nivel mínimo</h3>
-              <div className="mt-1">
-                <p className="text-gray-600 capitalize">{nivel}</p>
-              </div>
-            </div>
-          ) : (<></>)
-        }
+        <div className="py-4">
+          <p className="text-base text-justify text-gray-900">{descripcion}</p>
+        </div>
+        <div className="py-2">
+          <p className="text-base text-gray-700"><b>Duración:</b> {duracion}</p>
+        </div>
+        <div className="flex items-center">
+          {
+            [0,1,2,3,4].map(val => (
+              valoracion > val ? (
+                (valoracion - val) > 0.5 ? (<Icon icon={faSolidStar} color={'#F1C40F'} />) : (<Icon icon={faStarHalfAlt} color={'#F1C40F'} />)
+              ) : (<Icon icon={faRegularStar} color={'#F1C40F'} />)
+            ))
+          }
+          <p className="ml-2 text-gray-500">{valoracion}</p>
+        </div>
       </div>
       <div className="flex flex-col justify-between col-span-1">
         <div className="flex flex-col gap-y-3">
@@ -53,12 +48,7 @@ const ItemDetail = ({nombre, descripcion, carreras, telefono, email, precio, niv
               <p><Icon icon={faPhoneAlt} /> {telefono}</p>
             ) : (<></>)
           }
-          {
-            email ? (
-              <p><Icon icon={faEnvelope} /> {email}</p>
-            ) : (<></>)
-          }
-          <p className="text-2xl">S/. {precio}</p>
+          <p className="text-4xl font-medium">S/. {precio}</p>
         </div>
         <div>
           {
@@ -67,7 +57,7 @@ const ItemDetail = ({nombre, descripcion, carreras, telefono, email, precio, niv
             ) : (
               <>
                 <ItemCount
-                  cupos={5}
+                  cupos={cupos}
                   nombre={nombre}
                   id={id}
                   tipo={tipo}

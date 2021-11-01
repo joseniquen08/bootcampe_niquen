@@ -1,5 +1,5 @@
 import { faLock, faTimes, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useCartContext } from '../../context/cartContext';
 import Icon from '../Stateless/Icon/Icon';
 import Cart from './Cart';
@@ -45,7 +45,7 @@ const CartList = ({cartList}) => {
             </div>
             <div className="flex flex-col items-end text-sm gap-y-2">
               {
-                showCodigoDescuento && <div className="flex items-center justify-between w-full font-medium text-gray-400"><p>Códico aplicado: {showCodigoDescuento}</p><button onClick={() => setShowCodigoDescuento(null)} className="hover:text-gray-700"><Icon icon={faTimes} /></button></div>
+                showCodigoDescuento && <div className="flex items-center justify-between w-full font-medium text-gray-400"><p>Código aplicado: {showCodigoDescuento}</p><button onClick={() => setShowCodigoDescuento(null)} className="hover:text-gray-700"><Icon icon={faTimes} /></button></div>
               }
               <input disabled={showCodigoDescuento ? true : false} onChange={(e) => setCodigoDescuento(e.target.value)} value={codigoDescuento} type="text" placeholder="Ingresar un código de descuento" className="w-full px-4 py-2 border rounded-xl focus:outline-none" />
               <button disabled={showCodigoDescuento ? true : false} onClick={() => validarCodigo()} type="button" className={`px-4 py-2 text-white bg-blue-600 rounded-xl ${showCodigoDescuento ? 'opacity-70 cursor-default hover:' : 'hover:bg-blue-700'}`}>Aplicar</button>

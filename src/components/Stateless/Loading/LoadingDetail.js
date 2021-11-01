@@ -2,7 +2,7 @@ import React from 'react';
 
 const LoadingDetail = () => {
   return (
-    <div className="w-full max-w-3xl py-16 mx-auto">
+    <div className="w-full max-w-4xl py-16 mx-auto">
       <div className="w-full p-10 border border-gray-300 animate-pulse rounded-3xl shadow grid grid-cols-3 grid-rows-[auto,auto,1fr] gap-x-8">
         <div className="flex col-span-2 space-x-4">
           <div className="flex-1 py-1 pr-8 space-y-5 border-r border-gray-200">

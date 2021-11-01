@@ -4,8 +4,9 @@ import { faPlus, faMinus, faHeart as faSolidHeart } from '@fortawesome/free-soli
 import { faCheckCircle, faHeart as faRegularHeart } from '@fortawesome/free-regular-svg-icons';
 import { Link } from 'react-router-dom';
 import { useCartContext } from '../../context/cartContext';
+import { useFavoriteContext } from '../../context/favoriteContext';
 
-const ItemCount = ({cupos, nombre, id, tipo, precio, favoritos, setFavoritos, masInfo, changeHideItemCount}) => {
+const ItemCount = ({cupos, nombre, id, tipo, precio, masInfo}) => {
   
   const [statusBtnAddCart, setStatusBtnAddCart] = useState(false);
   const [items, setItems] = useState(1);
@@ -14,6 +15,7 @@ const ItemCount = ({cupos, nombre, id, tipo, precio, favoritos, setFavoritos, ma
   const [modal, setModal] = useState(false);
 
   const { addItemToCart } = useCartContext();
+  const { favoriteList, btnItemFavorite } = useFavoriteContext();
 
   useEffect(() => {
     if (items > 0) {
@@ -21,7 +23,7 @@ const ItemCount = ({cupos, nombre, id, tipo, precio, favoritos, setFavoritos, ma
     } else {
       setDisabledButton(true);
     }
-    if (favoritos.find((item) => item.id === id)) {
+    if (favoriteList.find((idItem) => idItem === id)) {
       setBtnFavorite(true);
     } else {
       setBtnFavorite(false);
@@ -42,11 +44,10 @@ const ItemCount = ({cupos, nombre, id, tipo, precio, favoritos, setFavoritos, ma
 
   const changeBtnFavorite = () => {
     if (btnFavorite) {
-      favoritos.splice(favoritos.findIndex((item) => item.id === id), 1);
-      setFavoritos(favoritos);
+      btnItemFavorite(id);
       setBtnFavorite(false);
     } else {
-      setFavoritos([...favoritos, {id: id, tipo: tipo}]);
+      btnItemFavorite(id);
       setBtnFavorite(true);
     }
   }
@@ -76,7 +77,7 @@ const ItemCount = ({cupos, nombre, id, tipo, precio, favoritos, setFavoritos, ma
       </div>
       {
         masInfo ? (
-          <Link to={tipo === 'Bootcamps' ? `/bootcamps/${id}` : (tipo === 'Cursos' ? `/courses/${id}` : `/`)} ><div className="w-full col-span-1 py-2 my-1 font-semibold text-center text-white bg-gray-600 border border-gray-200 rounded-2xl disabled:opacity-50 hover:bg-gray-700">Más información</div></Link>
+          <Link to={tipo === 'bootcamp' ? `/bootcamps/${id}` : (tipo === 'curso' ? `/cursos/${id}` : `/`)} ><div className="w-full col-span-1 py-2 my-1 font-semibold text-center text-white bg-gray-600 border border-gray-200 rounded-2xl disabled:opacity-50 hover:bg-gray-700">Más información</div></Link>
         ) : (
           <></>
         )

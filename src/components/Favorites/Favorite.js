@@ -1,33 +1,42 @@
-import axios from 'axios';
 import React, { useEffect, useState } from 'react';
+import { getFirestore } from '../../services/firebase.config';
+import ItemCount from '../ItemListContainer/ItemCount';
 import LoadingFavorites from '../Stateless/Loading/LoadingFavorites';
 
-const Favorite = ({index, id, tipo}) => {
+const Favorite = ({index, id}) => {
 
   const [info, setInfo] = useState(null);
 
-  const promise = new Promise((resolve, reject) => {
-    setTimeout(async () => {
-      const detailData = await axios.get(`https://bootcamp-api-20.herokuapp.com/api/v1/${tipo}/${id}`);
-      await resolve(detailData.data.data);
-    }, 2000);
-  });
-
   useEffect(() => {
-    promise.then(result => {
-      setInfo(result);
-      console.log(result)
-    });
+    const db = getFirestore();
+
+    setTimeout(async () => {
+      await db.collection('items').doc(id).get()
+      .then(result => setInfo({id: result.id, ...result.data()}));
+    }, 2000);
   }, []);
 
   return (
     <div>
       {
         info === null ? (<LoadingFavorites />) : (
-          <div key={index} className="pt-6 bg-white border border-gray-200 rounded-3xl">
+          <div key={index} className="pt-6 pb-3 bg-white border border-gray-200 rounded-3xl">
             <div className="px-6 pb-2">
-              <p className="mb-2 text-xl font-bold text-center text-gray-600">{info.name ? info.name : info.title}</p>
-              <p className="py-3 text-2xl font-medium text-center">S/. {info.averageCost ? info.averageCost : info.tuition}</p>
+              <p className="mb-2 text-xl font-bold text-center text-gray-600">{info.nombre}</p>
+              <div className="">
+                <img className="object-contain w-48 h-48 p-2 mx-auto" src={info.urlImage} />
+              </div>
+              <p className="py-3 text-2xl font-medium text-center">S/. {info.precio}</p>
+              <div>
+                <ItemCount
+                  cupos={info.cupos}
+                  nombre={info.nombre}
+                  id={info.id}
+                  tipo={info.tipo}
+                  precio={info.precio}
+                  masInfo={true}
+                />
+              </div>
             </div>
           </div>
         )

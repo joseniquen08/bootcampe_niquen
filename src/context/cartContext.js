@@ -11,9 +11,9 @@ const CartContextProvider = ({children}) => {
   const [subtotal, setSubtotal] = useState(0);
 
   const addItemToCart = (item) => {
-    if(cartList.some(itemCart => itemCart.id === item.id)) {
+    if (cartList.some(itemCart => itemCart.id === item.id)) {
       cartList.map(itemCart => {
-        if(itemCart.id === item.id) {
+        if (itemCart.id === item.id) {
           itemCart.cantidad += item.cantidad;
           setTotalItems(totalItems + item.cantidad);
           setSubtotal(subtotal + (item.cantidad * item.precio));
@@ -29,7 +29,7 @@ const CartContextProvider = ({children}) => {
   const removeItem = (id) => {
     const index = cartList.map(itemCart => itemCart.id).indexOf(id);
     const item = cartList.find(itemCart => itemCart.id === id);
-    if(index !== -1) {
+    if (index !== -1) {
       setTotalItems(totalItems - item.cantidad);
       setSubtotal(subtotal - (item.cantidad * item.precio))
       setCartList(cartList => cartList.filter((itemCart, i) => i !== index));
