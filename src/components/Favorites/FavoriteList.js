@@ -7,6 +7,7 @@ const FavoriteList = ({favoriteList}) => {
 
   useEffect(() => {
     setFavorites(favoriteList);
+    // eslint-disable-next-line
   }, [favorites]);
 
   return (

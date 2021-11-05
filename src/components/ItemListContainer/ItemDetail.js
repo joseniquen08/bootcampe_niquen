@@ -17,7 +17,7 @@ const ItemDetail = ({nombre, descripcion, telefono, precio, duracion, valoracion
       <div className="col-span-2 pr-8 border-r border-gray-200">
         <div className="flex items-end">
           <div className="border-r">
-            <img className="object-contain w-24 h-24 p-2 mx-auto" src={urlImage} />
+            <img className="object-contain w-24 h-24 p-2 mx-auto" src={urlImage} alt={nombre} />
           </div>
           <div className="ml-4">
             <h4 className="mb-1 text-base font-bold text-gray-600 uppercase">{tipo === 'Bootcamps' ? 'bootcamp' : 'curso'}</h4>

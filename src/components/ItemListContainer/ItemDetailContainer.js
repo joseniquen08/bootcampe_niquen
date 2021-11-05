@@ -6,7 +6,7 @@ import { getFirestore } from '../../services/firebase.config';
 
 const ItemDetailContainer = ({favoritos, setFavoritos}) => {
 
-  const {type, id} = useParams();
+  const { id } = useParams();
 
   const [info, setInfo] = useState(null);
 
@@ -17,9 +17,7 @@ const ItemDetailContainer = ({favoritos, setFavoritos}) => {
       await db.collection('items').doc(id).get()
       .then(result => setInfo({id: result.id, ...result.data()}));
     }, 2000);
-  }, []);
-
-  console.log(info);
+  }, [id]);
 
   return (
     <div>

@@ -10,7 +10,7 @@ const Item = ({nombre, cupos, precio, duracion, valoracion, urlImage, id, tipo})
       <div className="px-6 pb-2">
         <p className="mb-4 text-lg font-bold text-center text-gray-600">{nombre}</p>
         <div className="w-full">
-          <img className="object-contain w-48 h-48 p-4 mx-auto" src={urlImage} />
+          <img className="object-contain w-48 h-48 p-4 mx-auto" src={urlImage} alt={nombre} />
         </div>
         <div className="flex items-end justify-between">
           <p className="my-2 text-3xl font-medium">S/. {precio}</p>

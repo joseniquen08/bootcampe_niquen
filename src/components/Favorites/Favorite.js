@@ -14,7 +14,7 @@ const Favorite = ({index, id}) => {
       await db.collection('items').doc(id).get()
       .then(result => setInfo({id: result.id, ...result.data()}));
     }, 2000);
-  }, []);
+  }, [id]);
 
   return (
     <div>
@@ -24,7 +24,7 @@ const Favorite = ({index, id}) => {
             <div className="px-6 pb-2">
               <p className="mb-2 text-xl font-bold text-center text-gray-600">{info.nombre}</p>
               <div className="">
-                <img className="object-contain w-48 h-48 p-2 mx-auto" src={info.urlImage} />
+                <img className="object-contain w-48 h-48 p-2 mx-auto" src={info.urlImage} alt={info.nombre} />
               </div>
               <p className="py-3 text-2xl font-medium text-center">S/. {info.precio}</p>
               <div>
