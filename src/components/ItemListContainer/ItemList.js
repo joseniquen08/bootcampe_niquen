@@ -45,7 +45,7 @@ const ItemList = memo(({tipo, items, slide}) => {
                 ))
               }
             </Swiper>
-            <div className="text-right"><Icon icon={faArrowLeft} /><span className="ml-2">Mover a la derecha para ver más elementos</span></div>
+            <div className="text-right"><Icon icon={faArrowLeft} /><span className="ml-2">Mover a la izquierda para ver más elementos</span></div>
           </>
         ) : (
           <div className="grid grid-cols-3 gap-6 px-3 py-8">

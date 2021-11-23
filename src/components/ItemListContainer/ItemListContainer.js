@@ -3,6 +3,8 @@ import Loading from '../Stateless/Loading/Loading';
 import ItemList from './ItemList';
 import { getFirestore } from '../../services/firebase.config';
 import { useParams } from 'react-router';
+import { useModalContext } from '../../context/modalContext';
+import ModalAddCart from '../Stateless/Modals/ModalAddCart';
 
 const ItemListContainer = ({path}) => {
 
@@ -12,6 +14,8 @@ const ItemListContainer = ({path}) => {
 
   const [itemsBootcamps, setItemsBootcamps] = useState([]);
   const [itemsCourses, setItemsCourses] = useState([]);
+
+  const { modal } = useModalContext();
 
   useEffect(() => {
     const db = getFirestore();
@@ -32,23 +36,31 @@ const ItemListContainer = ({path}) => {
   }, []);
 
   return (
-    <div className="w-full bg-gray-100">
-      {
-        path === '/' ? (
-          itemsBootcamps.length === 0 || itemsCourses.length === 0 ? (<Loading />) : (
-            categories.map(category => (
-              <ItemList tipo={category.nombre} items={category.nombre === 'bootcamp' ? itemsBootcamps : itemsCourses} slide={true} />
-            ))
+    <>
+      <div className="w-full bg-gray-100">
+        {
+          path === '/' ? (
+            itemsBootcamps.length === 0 || itemsCourses.length === 0 ? (<Loading />) : (
+              categories.map(category => (
+                <ItemList key={category.id} tipo={category.nombre} items={category.nombre === 'bootcamp' ? itemsBootcamps : itemsCourses} slide={true} />
+              ))
+            )
+          ) : (
+            // eslint-disable-next-line
+            categories.map(category => {
+              if (category.id === id) {
+                return <ItemList key={category.id} tipo={category.nombre} items={category.nombre === 'bootcamp' ? itemsBootcamps : itemsCourses} slide={false}/>
+              }
+            })
           )
-        ) : (
-          categories.map(category => {
-            if (category.id === id) {
-              return <ItemList tipo={category.nombre} items={category.nombre === 'bootcamp' ? itemsBootcamps : itemsCourses} slide={false}/>
-            }
-          })
-        )
+        }
+      </div>
+      {
+        modal === true ? (
+          <ModalAddCart />
+        ) : (<></>)
       }
-    </div>
+    </>
   )
 }
 

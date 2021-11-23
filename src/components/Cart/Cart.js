@@ -3,13 +3,13 @@ import React from 'react';
 import { useCartContext } from '../../context/cartContext';
 import Icon from '../Stateless/Icon/Icon';
 
-const Cart = ({index, id, nombre, precio, cantidad}) => {
+const Cart = ({id, nombre, precio, cantidad}) => {
 
   const { removeItem } = useCartContext();
 
   return (
     <div>
-      <div key={index} className="bg-white border border-gray-200 rounded-3xl">
+      <div className="bg-white border border-gray-200 rounded-3xl">
         <div className="flex items-center justify-between py-6">
           <div className="flex flex-col w-full px-8 border-r border-gray-300 gap-y-2">
             <p className="text-2xl font-bold text-left text-gray-800">{nombre}</p>

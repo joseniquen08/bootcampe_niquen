@@ -7,32 +7,25 @@ import { useCartContext } from '../../context/cartContext';
 import { useFavoriteContext } from '../../context/favoriteContext';
 import { useModalContext } from '../../context/modalContext';
 
-const ItemCount = ({cupos, nombre, id, tipo, precio, masInfo}) => {
+const ItemCount = ({cupos, nombre, id, tipo, precio, urlImage, masInfo}) => {
   
-  const [statusBtnAddCart, setStatusBtnAddCart] = useState(false);
   const [items, setItems] = useState(1);
-  const [disabledButton, setDisabledButton] = useState(true);
   const [btnFavorite, setBtnFavorite] = useState(false);
 
   const { addItemToCart } = useCartContext();
-  const { favoriteList, btnItemFavorite } = useFavoriteContext();
-  const { showModal } = useModalContext();
+  const { favoriteList, addItemFavorite, removeItemFavorite } = useFavoriteContext();
+  const { showModal, addInfoItemModal } = useModalContext();
 
   useEffect(() => {
-    if (items > 0) {
-      setDisabledButton(false);
-    } else {
-      setDisabledButton(true);
-    }
-    if (favoriteList.find((idItem) => idItem === id)) {
+    if (favoriteList.some(itemFav => itemFav.id === id)) {
       setBtnFavorite(true);
     } else {
       setBtnFavorite(false);
     }
-  }, [favoriteList, id, items]);
+  }, [favoriteList, id]);
 
   const decreaseAmount = () => {
-    if (items > 0) {
+    if (items > 1) {
       setItems(items - 1);
     }
   }
@@ -45,19 +38,17 @@ const ItemCount = ({cupos, nombre, id, tipo, precio, masInfo}) => {
 
   const changeBtnFavorite = () => {
     if (btnFavorite) {
-      btnItemFavorite(id);
+      removeItemFavorite(id);
       setBtnFavorite(false);
     } else {
-      btnItemFavorite(id);
+      addItemFavorite({id: id, nombre: nombre, precio: precio, urlImage: urlImage, cupos: cupos, tipo: tipo});
       setBtnFavorite(true);
     }
   }
 
   const addToCart = () => {
     showModal();
-    if (!masInfo) {
-      setStatusBtnAddCart(true);
-    }
+    addInfoItemModal({nombre: nombre, cantidad: items});
     addItemToCart({id: id, nombre: nombre, precio: precio, cantidad: items});
   }
 
@@ -78,15 +69,7 @@ const ItemCount = ({cupos, nombre, id, tipo, precio, masInfo}) => {
           <></>
         )
       }
-      {
-        statusBtnAddCart ? (
-          <div className="flex justify-center w-full my-1 align-center">
-            <Link to='/cart' className="w-full py-2 font-semibold text-center text-white bg-yellow-500 border border-gray-200 rounded-2xl hover:bg-yellow-600">Finalizar compra</Link>
-          </div>
-        ) : (
-          <button type="button" onClick={() => addToCart(items)} disabled={disabledButton} className={`w-full py-2 my-1 bg-blue-600 border text-white font-semibold col-span-1 border-gray-200 rounded-2xl disabled:opacity-50 ${disabledButton === true ? 'cursor-not-allowed' : 'hover:bg-blue-700'}`}>Agregar al carrito</button>
-        )
-      }
+      <button type="button" onClick={() => addToCart(items)} className='w-full col-span-1 py-2 my-1 font-semibold text-white bg-blue-600 border border-gray-200 rounded-2xl disabled:opacity-50 hover:bg-blue-700'>Agregar al carrito</button>
     </div>
   )
 }

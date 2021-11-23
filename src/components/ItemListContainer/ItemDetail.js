@@ -1,17 +1,10 @@
 import { faStar as faRegularStar } from '@fortawesome/free-regular-svg-icons';
 import { faStar as faSolidStar, faStarHalfAlt, faPhoneAlt } from '@fortawesome/free-solid-svg-icons';
-import React, { useState } from 'react';
+import React from 'react';
 import Icon from '../Stateless/Icon/Icon';
 import ItemCount from './ItemCount';
 
-const ItemDetail = ({nombre, descripcion, telefono, precio, duracion, valoracion, urlImage, favoritos, setFavoritos, tipo, id, cupos}) => {
-  
-  const [hideItemCount, setHideItemCount] = useState(false);
-
-  const changeHideItemCount = () => {
-    setHideItemCount(true);
-  }
-  
+const ItemDetail = ({nombre, descripcion, telefono, precio, duracion, valoracion, urlImage, tipo, id, cupos}) => {
   return (
     <div className="border border-gray-300 w-full rounded-3xl p-10 grid grid-cols-3 grid-rows-[auto,auto,1fr] gap-x-8">
       <div className="col-span-2 pr-8 border-r border-gray-200">
@@ -51,26 +44,16 @@ const ItemDetail = ({nombre, descripcion, telefono, precio, duracion, valoracion
           <p className="text-4xl font-medium">S/. {precio}</p>
         </div>
         <div>
-          {
-            hideItemCount ? (
-              <></>
-            ) : (
-              <>
-                <ItemCount
-                  cupos={cupos}
-                  nombre={nombre}
-                  id={id}
-                  tipo={tipo}
-                  precio={precio}
-                  favoritos={favoritos}
-                  setFavoritos={setFavoritos}
-                  masInfo={false}
-                  changeHideItemCount={changeHideItemCount}
-                />
-                <div className="pt-2 text-sm font-medium text-center text-gray-500">{cupos} cupos disponibles</div>
-              </>
-            )
-          }
+          <ItemCount
+            cupos={cupos}
+            nombre={nombre}
+            id={id}
+            tipo={tipo}
+            precio={precio}
+            urlImage={urlImage}
+            masInfo={false}
+          />
+          <div className="pt-2 text-sm font-medium text-center text-gray-500">{cupos} cupos disponibles</div>
         </div>
       </div>
     </div>

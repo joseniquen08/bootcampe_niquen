@@ -4,12 +4,22 @@ const CartContext = createContext([]);
 
 export const useCartContext = () => useContext(CartContext);
 
-const CartContextProvider = ({children}) => {
+const CartContextProvider = ({ children }) => {
 
-  const [cartList, setCartList] = useState([]);
-  const [totalItems, setTotalItems] = useState(0);
-  const [subtotal, setSubtotal] = useState(0);
+  let cartListStorage = JSON.parse(localStorage.getItem('cart'));
+
+  const [cartList, setCartList] = useState(
+    cartListStorage ? cartListStorage : []
+  );
+  const [totalItems, setTotalItems] = useState(
+    cartListStorage ? (cartListStorage.length > 1 ? cartListStorage.reduce((itemPrevious, itemNext) => itemPrevious.cantidad + itemNext.cantidad) : (cartListStorage.length === 0 ? 0 : cartListStorage[0].cantidad)) : 0
+  );
+  const [subtotal, setSubtotal] = useState(
+    cartListStorage ? (cartListStorage.length > 1 ? cartListStorage.reduce((itemPrevious, itemNext) => itemPrevious.cantidad * itemPrevious.precio + itemNext.cantidad * itemNext.precio) : (cartListStorage.length === 0 ? 0 : cartListStorage[0].cantidad * cartListStorage[0].precio)) : 0
+  );
   const [total, setTotal] = useState(0);
+
+  localStorage.setItem('cart', JSON.stringify(cartList));
 
   const addItemToCart = (item) => {
     if (cartList.some(itemCart => itemCart.id === item.id)) {

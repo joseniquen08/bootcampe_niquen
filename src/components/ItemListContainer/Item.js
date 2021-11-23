@@ -18,10 +18,10 @@ const Item = ({nombre, cupos, precio, duracion, valoracion, urlImage, id, tipo})
         </div>
         <div className="flex items-center mt-2">
           {
-            [0,1,2,3,4].map(val => (
+            [0,1,2,3,4].map((val, index) => (
               valoracion > val ? (
-                (valoracion - val) > 0.5 ? (<Icon icon={faSolidStar} color={'#F1C40F'} />) : (<Icon icon={faStarHalfAlt} color={'#F1C40F'} />)
-              ) : (<Icon icon={faRegularStar} color={'#F1C40F'} />)
+                (valoracion - val) > 0.5 ? (<Icon key={index} icon={faSolidStar} color={'#F1C40F'} />) : (<Icon key={index} icon={faStarHalfAlt} color={'#F1C40F'} />)
+              ) : (<Icon key={index} icon={faRegularStar} color={'#F1C40F'} />)
             ))
           }
           <p className="ml-2 text-gray-500">{valoracion}</p>
@@ -32,6 +32,7 @@ const Item = ({nombre, cupos, precio, duracion, valoracion, urlImage, id, tipo})
           id={id}
           tipo={tipo}
           precio={precio}
+          urlImage={urlImage}
           masInfo={true}
         />
       </div>
